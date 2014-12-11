@@ -6,14 +6,14 @@ import os
 f = os.popen('aticonfig --odgt --adapter=0')
 odgta0 = f.readlines()
 linea0 = os.popen('aticonfig --odgt --adapter=0').read().replace('\n', '')
-#print linea0
 
 
+partes = linea0.split()
 
-temp10000 = linea0[73]
-temp01000 = linea0[74]
-temp00100 = linea0[75]
-temp00010 = linea0[76]
-temp00001 = linea0[77]
-#print temp10000 + temp01000 + temp00100 + temp00010 + temp00001
-print "Your GPU#0 is at ", temp10000 + temp01000 + temp00100 + temp00010 + temp00001 + " " + u'\u2103'
+parte1 = linea0.partition(" ")
+
+if "ATI" in linea0:
+   print "Your " + partes[3] + " " + partes[4] + " " +partes[5] + " " + partes[6] + " " + partes[7] + " is at " + partes[12] + " " + u'\u2103'
+else:
+   print "You do not have FGLRX installed"
+
