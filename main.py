@@ -3,6 +3,9 @@ __author__ = 'audricd'
 ver 0.0.4
 """
 import os
+import sys
+
+
 temp0 = os.popen('aticonfig --odgt --adapter=0')
 odgta0 = temp0.readlines()
 linea0 = os.popen('aticonfig --odgt --adapter=0').read().replace('\n', ' ')
@@ -18,7 +21,6 @@ fglrxver = checkfglrx[7] + " " + checkfglrx[8] + " " + checkfglrx[9] + " " + che
 
 if not "ATI" in linea0:
    print "You do not have FGLRX installed"
-   import sys
    sys.exit()
 
 
@@ -42,7 +44,6 @@ while ans:
   fanspeedset = os.popen('aticonfig --pplib-cmd "set fanspeed 0  '+ fanspeed0100 + '"')
   print 'Your fan speed has been set to ' + fanspeed0100 + '%.'
  elif ans=="0":
-  import sys
   sys.exit()
  else:
   print("\n Not Valid Choice. Try again")
