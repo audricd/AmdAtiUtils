@@ -45,8 +45,6 @@ while ans:
       print("You have FGLRX "+ fglrxver +"installed.")
 
    elif ans == "2":
-
-
       print("\n Your {} {} {} {} {} is at {}".format(partesid0temp0[3],
                                                   partesid0temp0[4],
                                                   partesid0temp0[5],
