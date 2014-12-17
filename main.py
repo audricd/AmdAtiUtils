@@ -39,28 +39,28 @@ while ans:
    0.Exit/Quit
    """)
 
-ans = input("What would you like to do? ")
+   ans = input("What would you like to do? ")
 
-if ans == "1":
-   print("You have FGLRX "+ fglrxver +"installed.")
+   if ans == "1":
+      print("You have FGLRX "+ fglrxver +"installed.")
 
-elif ans == "2":
+   elif ans == "2":
 
 
-   print("\n Your {} {} {} {} {} is at {}".format(partesid0temp0[3],
+      print("\n Your {} {} {} {} {} is at {}".format(partesid0temp0[3],
                                                   partesid0temp0[4],
                                                   partesid0temp0[5],
                                                   partesid0temp0[6],
                                                   partesid0temp0[7],
                                                   partesid0temp0[12]))
 
-elif ans == "3":
+   elif ans == "3":
    fanspeed0100 = input('Insert value from 0 to 100. 80 is recommended. \n')
    fanspeedset = os.popen('aticonfig --pplib-cmd "set fanspeed 0  '+ fanspeed0100 + '"')
    print('Your fan speed has been set to {}%'.format(fanspeed0100))
 
-elif ans == "0":
-   sys.exit()
+   elif ans == "0":
+      sys.exit()
 
-else:
-   print('\n Not Valid Choice. Try again')
+   else:
+      print('\n Not Valid Choice. Try again')
