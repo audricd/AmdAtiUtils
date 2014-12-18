@@ -23,14 +23,23 @@ fglrxver = "{} {} {} {} ".format(checkfglrx[7],
                                  checkfglrx[8],
                                  checkfglrx[9],
                                  checkfglrx[10])
+
 def gettemp0():
    get_temp0 = subprocess.check_output('aticonfig --odgt --adapter=0', shell=True)
-   _temp0 = str(get_temp0)
-   print("{}{}{}{}{}".format(_temp0[79],
-                             _temp0[80],
-                             _temp0[81],
-                             _temp0[82],
-                             _temp0[83]))
+   temp = str(get_temp0)
+
+   # Commented out old code that isn't pretty.
+   #print("{}{}{}{}{}".format(_temp0[79],
+   #                          _temp0[80],
+   #                          _temp0[81],
+   #                          _temp0[82],
+   #                          _temp0[83]))
+   
+   temp_list = [temp[79], temp[80], temp[81], temp[82], temp[83]]
+
+   return temp_list
+
+
 #gettemp0()
 
 if not "ATI" in linea0:
@@ -58,7 +67,10 @@ while ans:
 
    elif ans == "2":
 
-      gettemp0()
+      list_of_temp = gettemp0()
+      
+      for item in list_of_temp:
+         print item
 
       print("\n Your {} {} {} {} {} is at {}".format(partesid0temp0[3],
                                                   partesid0temp0[4],
@@ -78,8 +90,12 @@ while ans:
                                                      partesid0temp0[5],
                                                      partesid0temp0[6],
                                                      partesid0temp0[7]))
+         
+   list_of_temp = gettemp0()
+      
+   for item in list_of_temp:
+      print item
 
-      gettemp0()
 
    elif ans == "0":
       sys.exit()
