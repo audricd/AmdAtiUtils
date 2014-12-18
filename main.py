@@ -24,7 +24,7 @@ fglrxver = "{} {} {} {} ".format(checkfglrx[7],
 def gettemp0():
    get_temp0 = subprocess.check_output('aticonfig --odgt --adapter=0', shell=True)
    _temp0 = str(get_temp0)
-   print("{}{}{}{}".format(_temp0[79],
+   print("{}{}{}{}{}".format(_temp0[79],
                                  _temp0[80],
                                  _temp0[81],
                                  _temp0[82],
