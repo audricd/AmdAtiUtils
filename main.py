@@ -70,7 +70,7 @@ while ans:
       list_of_temp = gettemp0()
       
       for item in list_of_temp:
-         print item
+         print(item)
 
       print("\n Your {} {} {} {} {} is at {}".format(partesid0temp0[3],
                                                   partesid0temp0[4],
@@ -91,10 +91,10 @@ while ans:
                                                      partesid0temp0[6],
                                                      partesid0temp0[7]))
          
-   list_of_temp = gettemp0()
+      list_of_temp = gettemp0()
       
-   for item in list_of_temp:
-      print item
+      for item in list_of_temp:
+        print(item)
 
 
    elif ans == "0":
