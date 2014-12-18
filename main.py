@@ -34,13 +34,11 @@ def gettemp0():
    #                          _temp0[81],
    #                          _temp0[82],
    #                          _temp0[83]))
-   
-   temp_list = [temp[79], temp[80], temp[81], temp[82], temp[83]]
 
-   return temp_list
+   temp = temp[79:84]
 
+   return temp
 
-#gettemp0()
 
 if not "ATI" in linea0:
 
@@ -49,7 +47,9 @@ if not "ATI" in linea0:
 
 print('Welcome to AmdAtiUtils v0.0.4')
 
+
 ans = True
+
 
 while ans:
 
@@ -62,22 +62,24 @@ while ans:
 
    ans = input("What would you like to do? ")
 
+
    if ans == "1":
       print("You have FGLRX "+ fglrxver +"installed.")
 
    elif ans == "2":
 
       list_of_temp = gettemp0()
-      
+
       for item in list_of_temp:
-         print item
+         print(item)
 
       print("\n Your {} {} {} {} {} is at {}".format(partesid0temp0[3],
-                                                  partesid0temp0[4],
-                                                  partesid0temp0[5],
-                                                  partesid0temp0[6],
-                                                  partesid0temp0[7],
-                                                  partesid0temp0[12]))
+                                                     partesid0temp0[4],
+                                                     partesid0temp0[5],
+                                                     partesid0temp0[6],
+                                                     partesid0temp0[7],
+                                                     partesid0temp0[12]))
+
 
    elif ans == "3":
       fanspeed0100 = input('Insert value from 0 to 100. 80 is recommended. \n')
@@ -85,16 +87,13 @@ while ans:
       print('Your fan speed has been set to {}%'.format(fanspeed0100))
 
    elif ans == "4":
-      print("\n Your {} {} {} {} {} is at ".format(partesid0temp0[3],
+      print("\n Your {} {} {} {} {} is at {}".format(partesid0temp0[3],
                                                      partesid0temp0[4],
                                                      partesid0temp0[5],
                                                      partesid0temp0[6],
-                                                     partesid0temp0[7]))
-         
-   list_of_temp = gettemp0()
-      
-   for item in list_of_temp:
-      print item
+                                                     partesid0temp0[7],
+                                                     gettemp0()))
+
 
 
    elif ans == "0":
