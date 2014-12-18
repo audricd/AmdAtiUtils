@@ -78,7 +78,6 @@ while ans:
                                                      partesid0temp0[5],
                                                      partesid0temp0[6],
                                                      partesid0temp0[7]))
-
       gettemp0()
 
    elif ans == "0":
