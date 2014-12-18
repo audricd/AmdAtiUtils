@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 
 __author__ = 'audricd'
+
 """
 amdatiutils
 ver 0.0.4
 """
+
 import os
 import sys
+import subprocess
 
 temp0 = os.popen('aticonfig --odgt --adapter=0')  # os.popen is deprecated
 odgta0 = temp0.readlines()
@@ -20,6 +23,15 @@ fglrxver = "{} {} {} {} ".format(checkfglrx[7],
                                  checkfglrx[8],
                                  checkfglrx[9],
                                  checkfglrx[10])
+def gettemp0():
+   get_temp0 = subprocess.check_output('aticonfig --odgt --adapter=0', shell=True)
+   _temp0 = str(get_temp0)
+   print("{}{}{}{}{}".format(_temp0[79],
+                             _temp0[80],
+                             _temp0[81],
+                             _temp0[82],
+                             _temp0[83]))
+#gettemp0()
 
 if not "ATI" in linea0:
 
@@ -45,6 +57,9 @@ while ans:
       print("You have FGLRX "+ fglrxver +"installed.")
 
    elif ans == "2":
+
+      gettemp0()
+
       print("\n Your {} {} {} {} {} is at {}".format(partesid0temp0[3],
                                                   partesid0temp0[4],
                                                   partesid0temp0[5],
@@ -53,9 +68,18 @@ while ans:
                                                   partesid0temp0[12]))
 
    elif ans == "3":
-   fanspeed0100 = input('Insert value from 0 to 100. 80 is recommended. \n')
-   fanspeedset = os.popen('aticonfig --pplib-cmd "set fanspeed 0  '+ fanspeed0100 + '"')
-   print('Your fan speed has been set to {}%'.format(fanspeed0100))
+      fanspeed0100 = input('Insert value from 0 to 100. 80 is recommended. \n')
+      fanspeedset = os.popen('aticonfig --pplib-cmd "set fanspeed 0  '+ fanspeed0100 + '"')
+      print('Your fan speed has been set to {}%'.format(fanspeed0100))
+
+   elif ans == "4":
+      print("\n Your {} {} {} {} {} is at ".format(partesid0temp0[3],
+                                                     partesid0temp0[4],
+                                                     partesid0temp0[5],
+                                                     partesid0temp0[6],
+                                                     partesid0temp0[7]))
+
+      gettemp0()
 
    elif ans == "0":
       sys.exit()
