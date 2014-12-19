@@ -4,53 +4,49 @@ __author__ = 'audricd'
 
 """
 amdatiutils
-ver 0.0.4
+ver 0.0.5
 """
 
 import os
 import sys
 import subprocess
 
-temp0 = os.popen('aticonfig --odgt --adapter=0')  # os.popen is deprecated
-odgta0 = temp0.readlines()
+#detects fglrx
 linea0 = os.popen('aticonfig --odgt --adapter=0').read().replace('\n', ' ')
-
-checkfglrx = os.popen('dmesg | grep fglrx | grep module | grep loaded').read().split()
-
-partesid0temp0 = linea0.split()
-parteid0temp0_1 = linea0.partition(" ")
-fglrxver = "{} {} {} {} ".format(checkfglrx[7],
-                                 checkfglrx[8],
-                                 checkfglrx[9],
-                                 checkfglrx[10])
-
-def gettemp0():
-   get_temp0 = subprocess.check_output('aticonfig --odgt --adapter=0', shell=True)
-   temp = str(get_temp0)
-
-   # Commented out old code that isn't pretty.
-   #print("{}{}{}{}{}".format(_temp0[79],
-   #                          _temp0[80],
-   #                          _temp0[81],
-   #                          _temp0[82],
-   #                          _temp0[83]))
-
-   temp = temp[79:84]
-
-   return temp
-
-
 if not "ATI" in linea0:
 
    print('You do not have FGLRX installed')
    sys.exit()
 
-print('Welcome to AmdAtiUtils v0.0.4')
+#welcome message
+print('Welcome to AmdAtiUtils v0.0.5. \nWarning: use this software under your responsability.'
+      ' Overclocking and setting wrong fan speed can damage your hardware.')
 
 
+
+#gets/splits info of the GPU
+partesid0temp0 = linea0.split()
+
+#gets driver version + date
+def getdriverver():
+    checkfglrx = os.popen('dmesg | grep fglrx | grep module | grep loaded').read().split()
+    fglrxver = checkfglrx[7:11]
+    print("\n You are using FGLRX driver version {} {} {} {}".format(fglrxver[0],
+                                                                     fglrxver[1],
+                                                                     fglrxver[2],
+                                                                     fglrxver[3],))
+    return fglrxver
+
+#gets temperature for adapter0
+def gettemp0():
+   get_temp0 = subprocess.check_output('aticonfig --odgt --adapter=0', shell=True)
+   temp = str(get_temp0)
+   temp = temp[79:84]
+   return temp
+
+
+#Main Menu
 ans = True
-
-
 while ans:
 
    print("""
@@ -64,36 +60,20 @@ while ans:
 
 
    if ans == "1":
-      print("You have FGLRX "+ fglrxver +"installed.")
+      getdriverver()
 
    elif ans == "2":
-
-      list_of_temp = gettemp0()
-
-      for item in list_of_temp:
-         print(item)
-
-      print("\n Your {} {} {} {} {} is at {}".format(partesid0temp0[3],
-                                                     partesid0temp0[4],
-                                                     partesid0temp0[5],
-                                                     partesid0temp0[6],
-                                                     partesid0temp0[7],
-                                                     partesid0temp0[12]))
-
+      print("\n Your {} {} {} {} {} is at {}°C ".format(partesid0temp0[3],
+                                                        partesid0temp0[4],
+                                                        partesid0temp0[5],
+                                                        partesid0temp0[6],
+                                                        partesid0temp0[7],
+                                                        gettemp0()))
 
    elif ans == "3":
       fanspeed0100 = input('Insert value from 0 to 100. 80 is recommended. \n')
       fanspeedset = os.popen('aticonfig --pplib-cmd "set fanspeed 0  '+ fanspeed0100 + '"')
       print('Your fan speed has been set to {}%'.format(fanspeed0100))
-
-   elif ans == "4":
-      print("\n Your {} {} {} {} {} is at {}".format(partesid0temp0[3],
-                                                     partesid0temp0[4],
-                                                     partesid0temp0[5],
-                                                     partesid0temp0[6],
-                                                     partesid0temp0[7],
-                                                     gettemp0()))
-
 
 
    elif ans == "0":
