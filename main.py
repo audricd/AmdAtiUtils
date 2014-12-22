@@ -38,11 +38,32 @@ def getdriverver():
     return fglrxver
 
 #gets temperature for adapter0
-def gettemp0():
-   get_temp0 = subprocess.check_output('aticonfig --odgt --adapter=0', shell=True)
-   temp = str(get_temp0)
-   temp = temp[79:84]
-   return temp
+def getTemp(adapter=0):
+    """
+    Gets the temperature of the chosen adapter. Adapter 0 is the defult
+    adapter that will be returned if no arguments are provided.
+    :rtype : object
+    :param adapter: The adapter whose temperature will be returned.
+    :return: The temperature of the adapter as a string.
+    """
+    get_temp = subprocess.check_output('aticonfig --odgt --adapter={}'.format(adapter), shell=True)
+    odgt = str(get_temp, encoding='ascii')
+    odgtline = odgt.replace('\n', ' ')
+    print(odgt[75:82])
+
+
+def setFanSpeed(gpuid=0):
+    fanspeed0100 = input('Insert value from 0 to 100. 80 is recommended. \n')
+    fanspeedset = os.popen('aticonfig --pplib-cmd "set fanspeed {}  '+ fanspeed0100 + '"'.format(gpuid))
+    print('Your fan speed has been set to {}%'.format(fanspeed0100))
+
+
+def getnumadapters():
+    get_adapters = os.popen('aticonfig --list-adapters').read()
+    print(get_adapters)
+    numadapters = get_adapters.count("ATI")
+    print(numadapters)
+    return numadapters
 
 
 #Main Menu
@@ -51,8 +72,9 @@ while ans:
 
    print("""
    1.Check your FGLRX driver version
-   2.Show name and temperature for primary GPU
-   3.Manually set fan speed for primary GPU
+   2.Show your GPU(s)
+   3.Show name and temperature for primary GPU
+   4.Manually set fan speed for primary GPU
    0.Exit/Quit
    """)
 
@@ -63,18 +85,7 @@ while ans:
       getdriverver()
 
    elif ans == "2":
-      print("\n Your {} {} {} {} {} is at {}°C ".format(partesid0temp0[3],
-                                                        partesid0temp0[4],
-                                                        partesid0temp0[5],
-                                                        partesid0temp0[6],
-                                                        partesid0temp0[7],
-                                                        gettemp0()))
-
-   elif ans == "3":
-      fanspeed0100 = input('Insert value from 0 to 100. 80 is recommended. \n')
-      fanspeedset = os.popen('aticonfig --pplib-cmd "set fanspeed 0  '+ fanspeed0100 + '"')
-      print('Your fan speed has been set to {}%'.format(fanspeed0100))
-
+      getTemp()
 
    elif ans == "0":
       sys.exit()
