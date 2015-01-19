@@ -4,7 +4,7 @@ __author__ = 'audricd'
 
 """
 amdatiutils
-ver 0.0.5
+ver 0.1.0
 """
 
 import os
@@ -19,13 +19,15 @@ if not "ATI" in linea0:
    sys.exit()
 
 #welcome message
-print('Welcome to AmdAtiUtils v0.0.5. \nWarning: use this software under your responsability.'
+print('Welcome to AmdAtiUtils v0.1.0 \nWarning: use this software under your responsability.'
       ' Overclocking and setting wrong fan speed can damage your hardware.')
+
 
 
 
 #gets/splits info of the GPU
 partesid0temp0 = linea0.split()
+
 
 #gets driver version + date
 def getdriverver():
@@ -40,7 +42,7 @@ def getdriverver():
 #gets temperature for adapter0
 def getTemp(adapter=0):
     """
-    Gets the temperature of the chosen adapter. Adapter 0 is the defult
+    Gets the temperature of the chosen adapter. Adapter 0 is the default
     adapter that will be returned if no arguments are provided.
     :rtype : object
     :param adapter: The adapter whose temperature will be returned.
@@ -51,6 +53,16 @@ def getTemp(adapter=0):
     odgtline = odgt.replace('\n', ' ')
     print(odgt[75:82])
 
+
+def getName(adapter=0):
+    get_name = subprocess.check_output('aticonfig --odgt --adapter={}'.format(adapter), shell=True)
+    odgt = str(get_name, encoding='ascii')
+    print(odgt[1:50])
+
+def getFanSpeed(adapter=0):
+    get_fanspeed = subprocess.check_output('aticonfig --pplib-cmd "get fanspeed {}"'.format(adapter), shell=True)
+    fanspeedresult = str(get_fanspeed, encoding='ascii')
+    print(fanspeedresult[70:73])
 
 def setFanSpeed(gpuid=0):
     fanspeed0100 = input('Insert value from 0 to 100. 80 is recommended. \n')
@@ -65,7 +77,6 @@ def getnumadapters():
     print(numadapters)
     return numadapters
 
-
 #Main Menu
 ans = True
 while ans:
@@ -73,8 +84,9 @@ while ans:
    print("""
    1.Check your FGLRX driver version
    2.Show your GPU(s)
-   3.Show name and temperature for primary GPU
-   4.Manually set fan speed for primary GPU
+   3.Check GPU temperature
+   4.Check GPU fanspeed
+   5.Set GPU fanspeed
    0.Exit/Quit
    """)
 
@@ -85,7 +97,21 @@ while ans:
       getdriverver()
 
    elif ans == "2":
-      getTemp()
+      get_adapters = os.popen('aticonfig --list-adapters').read()
+      print(get_adapters)
+
+   elif ans == "3":
+      anstempgpuid = input("Which GPU temperature would you like to check? Input GPU ID as shown in option 2\n")
+      getTemp(adapter=anstempgpuid)
+
+   elif ans =="4":
+      anscheckfanspeed = input("Which GPU fanspeed would you like to check? Input GPU ID as shown in option 2\n")
+      getFanSpeed(adapter=anscheckfanspeed)
+
+   elif ans =="5":
+      anssetfanspeed = input("Which GPU fanspeed would you like to set? Input GPU ID as shown in option 2\n")
+      setFanSpeed(gpuid=anssetfanspeed)
+
 
    elif ans == "0":
       sys.exit()
