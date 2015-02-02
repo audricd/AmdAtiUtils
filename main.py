@@ -4,7 +4,7 @@ __author__ = 'audricd'
 
 """
 amdatiutils
-ver 0.1.0
+ver 0.1.1
 """
 
 import os
@@ -51,7 +51,9 @@ def getTemp(adapter=0):
     get_temp = subprocess.check_output('aticonfig --odgt --adapter={}'.format(adapter), shell=True)
     odgt = str(get_temp, encoding='ascii')
     odgtline = odgt.replace('\n', ' ')
-    print(odgt[75:82])
+    lenodgt = len(odgt)
+    temp = odgt[lenodgt-8:-1]
+    print(temp)
 
 
 def getName(adapter=0):
