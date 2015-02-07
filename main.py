@@ -4,7 +4,7 @@ __author__ = 'audricd'
 
 """
 amdatiutils
-ver 0.1.1
+ver 0.1.2
 """
 
 import os
@@ -39,45 +39,47 @@ def getdriverver():
                                                                      fglrxver[3],))
     return fglrxver
 
-#gets temperature for adapter0
-def getTemp(adapter=0):
-    """
-    Gets the temperature of the chosen adapter. Adapter 0 is the default
-    adapter that will be returned if no arguments are provided.
-    :rtype : object
-    :param adapter: The adapter whose temperature will be returned.
-    :return: The temperature of the adapter as a string.
-    """
-    get_temp = subprocess.check_output('aticonfig --odgt --adapter={}'.format(adapter), shell=True)
-    odgt = str(get_temp, encoding='ascii')
-    odgtline = odgt.replace('\n', ' ')
-    lenodgt = len(odgt)
-    temp = odgt[lenodgt-8:-1]
-    print(temp)
-
-
 def getName(adapter=0):
     get_name = subprocess.check_output('aticonfig --odgt --adapter={}'.format(adapter), shell=True)
-    odgt = str(get_name, encoding='ascii')
-    print(odgt[1:50])
+    odgtn = str(get_name, encoding='ascii')
+    lineas = odgtn.split("\n")
+    lineanombre = lineas[1]
+    nombre = lineanombre[12:]
+    print = str(nombre)
+    return nombre
+
+def getTemp(adapter=0):
+    get_temp = subprocess.check_output('aticonfig --odgt --adapter={}'.format(adapter), shell=True)
+    odgtt = str(get_temp, encoding='ascii')
+    odgtline = odgtt.replace('\n', ' ')
+    lenodgt = len(odgtt)
+    temp = odgtt[lenodgt-8:-1]
+    nombre = getName(adapter=adapter)
+    print("Your "+nombre+" is at "+temp)
+
+
+
 
 def getFanSpeed(adapter=0):
     get_fanspeed = subprocess.check_output('aticonfig --pplib-cmd "get fanspeed {}"'.format(adapter), shell=True)
     fanspeedresult = str(get_fanspeed, encoding='ascii')
-    print(fanspeedresult[70:73])
+    nombre = getName(adapter=adapter)
+    print("Your "+nombre+ " fanspeed is going at "+fanspeedresult[70:73])
 
-def setFanSpeed(gpuid=0):
+def setFanSpeed(adapter=0):
     fanspeed0100 = input('Insert value from 0 to 100. 80 is recommended. \n')
-    fanspeedset = os.popen('aticonfig --pplib-cmd "set fanspeed {}  '+ fanspeed0100 + '"'.format(gpuid))
-    print('Your fan speed has been set to {}%'.format(fanspeed0100))
+    fanspeedset = os.popen('aticonfig --pplib-cmd "set fanspeed {}  '+ fanspeed0100 + '"'.format(adapter))
+    nombre = getName(adapter=adapter)
+    print("Your " +nombre+" fan speed has been set to {}%".format(fanspeed0100))
 
 
 def getnumadapters():
     get_adapters = os.popen('aticonfig --list-adapters').read()
-    print(get_adapters)
     numadapters = get_adapters.count("ATI")
-    print(numadapters)
     return numadapters
+
+
+numadapters = getnumadapters()
 
 #Main Menu
 ans = True
@@ -103,16 +105,22 @@ while ans:
       print(get_adapters)
 
    elif ans == "3":
-      anstempgpuid = input("Which GPU temperature would you like to check? Input GPU ID as shown in option 2\n")
+      anstempgpuid = input("Which GPU temperature would you like to check? Input GPU ID as shown in option 2\n"
+                           "Reminder: you have " + str(numadapters) + " GPU(s). ID of the first one is 0, the second is 1, and so on.\n")
       getTemp(adapter=anstempgpuid)
 
    elif ans =="4":
-      anscheckfanspeed = input("Which GPU fanspeed would you like to check? Input GPU ID as shown in option 2\n")
+      anscheckfanspeed = input("Which GPU fanspeed would you like to check? Input GPU ID as shown in option 2\n"
+                               "Reminder: you have " + str(numadapters) + " GPU(s). ID of the first one is 0, the second is 1, and so on.\n")
       getFanSpeed(adapter=anscheckfanspeed)
 
    elif ans =="5":
-      anssetfanspeed = input("Which GPU fanspeed would you like to set? Input GPU ID as shown in option 2\n")
-      setFanSpeed(gpuid=anssetfanspeed)
+      anssetfanspeed = input("Which GPU fanspeed would you like to set? Input GPU ID as shown in option 2\n"
+                             "Reminder: you have " + str(numadapters) + " GPU(s). ID of the first one is 0, the second is 1, and so on.\n")
+      setFanSpeed(adapter=anssetfanspeed)
+
+   elif ans =="6":
+      print(getName(adapter={}).format(adapter))
 
 
    elif ans == "0":
